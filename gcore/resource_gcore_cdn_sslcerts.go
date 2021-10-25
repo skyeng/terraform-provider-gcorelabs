@@ -6,9 +6,9 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/G-Core/gcorelabscdn-go/sslcerts"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/skyeng/gcorelabscdn-go/sslcerts"
 )
 
 func resourceCDNCert() *schema.Resource {

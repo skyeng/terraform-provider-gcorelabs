@@ -7,10 +7,10 @@ import (
 	"reflect"
 	"strconv"
 
-	gcdn "github.com/G-Core/gcorelabscdn-go/gcore"
-	"github.com/G-Core/gcorelabscdn-go/resources"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	gcdn "github.com/skyeng/gcorelabscdn-go/gcore"
+	"github.com/skyeng/gcorelabscdn-go/resources"
 )
 
 func resourceCDNResource() *schema.Resource {
@@ -20,6 +20,11 @@ func resourceCDNResource() *schema.Resource {
 				Type:        schema.TypeString,
 				Required:    true,
 				Description: "A CNAME that will be used to deliver content though a CDN",
+			},
+			"description": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "An optional comment that describes this resource",
 			},
 			"origin_group": {
 				Type:     schema.TypeInt,
@@ -151,6 +156,7 @@ func resourceCDNResourceCreate(ctx context.Context, d *schema.ResourceData, m in
 
 	var req resources.CreateRequest
 	req.Cname = d.Get("cname").(string)
+	req.Description = d.Get("description").(string)
 	req.Origin = d.Get("origin").(string)
 	req.OriginGroup = d.Get("origin_group").(int)
 
@@ -187,6 +193,7 @@ func resourceCDNResourceRead(ctx context.Context, d *schema.ResourceData, m inte
 	}
 
 	d.Set("cname", result.Cname)
+	d.Set("description", result.Description)
 	d.Set("origin_group", result.OriginGroup)
 	d.Set("origin_protocol", result.OriginProtocol)
 	d.Set("secondary_hostnames", result.SecondaryHostnames)
@@ -215,6 +222,7 @@ func resourceCDNResourceUpdate(ctx context.Context, d *schema.ResourceData, m in
 
 	var req resources.UpdateRequest
 	req.Active = d.Get("active").(bool)
+	req.Description = d.Get("description").(string)
 	req.SSlEnabled = d.Get("ssl_enabled").(bool)
 	req.SSLData = d.Get("ssl_data").(int)
 	req.OriginGroup = d.Get("origin_group").(int)
