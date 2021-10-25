@@ -39,6 +39,7 @@ resource "gcore_cdn_resource" "cdn_example_com" {
 ### Optional
 
 - **active** (Boolean) The setting allows to enable or disable a CDN Resource
+- **description** (String) An optional comment that describes this resource
 - **id** (String) The ID of this resource.
 - **options** (Block List, Max: 1) Each option in CDN resource settings. Each option added to CDN resource settings should have the following mandatory request fields: enabled, value. (see [below for nested schema](#nestedblock--options))
 - **origin** (String) A domain name or IP of your origin source. Specify a port if custom. You can use either 'origin' parameter or 'originGroup' in the resource definition.
