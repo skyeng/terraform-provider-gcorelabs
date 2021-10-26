@@ -11,5 +11,6 @@ require (
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.7.0
 	github.com/mattn/go-colorable v0.1.8 // indirect
 	github.com/mitchellh/mapstructure v1.4.1
-	github.com/skyeng/gcorelabscdn-go v0.0.0-20211025135456-e81f8017a681
+	github.com/skyeng/gcorelabscdn-go v0.0.0-20211025150435-bc3f6f3f16b9
+	github.com/zclconf/go-cty v1.9.1 // indirect
 )

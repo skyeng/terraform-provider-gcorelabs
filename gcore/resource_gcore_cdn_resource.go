@@ -108,6 +108,26 @@ func resourceCDNResource() *schema.Resource {
 								},
 							},
 						},
+						"browser_cache_settings": {
+							Type:        schema.TypeList,
+							MaxItems:    1,
+							Optional:    true,
+							Computed:    true,
+							Description: "The cache expiration time for customers' browsers in seconds.",
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+									"value": {
+										Type:        schema.TypeString,
+										Required:    true,
+										Description: "The value applies for a response with codes 200, 201, 204, 206, 301, 302, 303, 304, 307, 308. Responses with other codes will not be cached. Use '0s' to disable caching.",
+									},
+								},
+							},
+						},
 						"host_header": {
 							Type:        schema.TypeList,
 							MaxItems:    1,
@@ -285,6 +305,12 @@ func listToOptions(l []interface{}) *gcdn.Options {
 			Default:      opt["default"].(string),
 		}
 	}
+	if opt, ok := getOptByName(fields, "browser_cache_settings"); ok {
+		opts.BrowserCacheSettings = &gcdn.BrowserCacheSettings{
+			Enabled: opt["enabled"].(bool),
+			Value:   opt["value"].(string),
+		}
+	}
 	if opt, ok := getOptByName(fields, "host_header"); ok {
 		opts.HostHeader = &gcdn.HostHeader{
 			Enabled: opt["enabled"].(bool),
@@ -322,6 +348,10 @@ func optionsToList(options *gcdn.Options) []interface{} {
 	if options.EdgeCacheSettings != nil {
 		m := structToMap(options.EdgeCacheSettings)
 		result["edge_cache_settings"] = []interface{}{m}
+	}
+	if options.BrowserCacheSettings != nil {
+		m := structToMap(options.BrowserCacheSettings)
+		result["browser_cache_settings"] = []interface{}{m}
 	}
 	if options.HostHeader != nil {
 		m := structToMap(options.HostHeader)

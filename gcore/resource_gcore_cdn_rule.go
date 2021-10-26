@@ -72,6 +72,26 @@ func resourceCDNRule() *schema.Resource {
 								},
 							},
 						},
+						"browser_cache_settings": {
+							Type:        schema.TypeList,
+							MaxItems:    1,
+							Optional:    true,
+							Computed:    true,
+							Description: "The cache expiration time for customers' browsers in seconds.",
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+									"value": {
+										Type:        schema.TypeString,
+										Required:    true,
+										Description: "The value applies for a response with codes 200, 201, 204, 206, 301, 302, 303, 304, 307, 308. Responses with other codes will not be cached. Use '0s' to disable caching.",
+									},
+								},
+							},
+						},
 						"host_header": {
 							Type:        schema.TypeList,
 							MaxItems:    1,
