@@ -110,6 +110,54 @@ func resourceCDNRule() *schema.Resource {
 								},
 							},
 						},
+						"webp": {
+							Type:        schema.TypeList,
+							MaxItems:    1,
+							Optional:    true,
+							Description: "The option allows automatically convert JPG and PNG images into WebP format",
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+									"jpg_quality": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+									"png_quality": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+									"png_lossless": {
+										Type:     schema.TypeBool,
+										Optional: true,
+									},
+								},
+							},
+						},
+						"rewrite": {
+							Type:        schema.TypeList,
+							MaxItems:    1,
+							Optional:    true,
+							Description: "Defines nginx rewrite directive.",
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+									"body": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"flag": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},

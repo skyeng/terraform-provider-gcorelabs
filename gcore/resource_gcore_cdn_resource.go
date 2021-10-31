@@ -146,6 +146,54 @@ func resourceCDNResource() *schema.Resource {
 								},
 							},
 						},
+						"webp": {
+							Type:        schema.TypeList,
+							MaxItems:    1,
+							Optional:    true,
+							Description: "The option allows automatically convert JPG and PNG images into WebP format",
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+									"jpg_quality": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+									"png_quality": {
+										Type:     schema.TypeInt,
+										Optional: true,
+									},
+									"png_lossless": {
+										Type:     schema.TypeBool,
+										Optional: true,
+									},
+								},
+							},
+						},
+						"rewrite": {
+							Type:        schema.TypeList,
+							MaxItems:    1,
+							Optional:    true,
+							Description: "Defines nginx rewrite directive.",
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+									"body": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"flag": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -317,6 +365,21 @@ func listToOptions(l []interface{}) *gcdn.Options {
 			Value:   opt["value"].(string),
 		}
 	}
+	if opt, ok := getOptByName(fields, "webp"); ok {
+		opts.Webp = &gcdn.Webp{
+			Enabled:     opt["enabled"].(bool),
+			JPGQuality:  opt["jpg_quality"].(int),
+			PNGQuality:  opt["png_quality"].(int),
+			PNGLossless: opt["png_lossless"].(bool),
+		}
+	}
+	if opt, ok := getOptByName(fields, "rewrite"); ok {
+		opts.Rewrite = &gcdn.Rewrite{
+			Enabled: opt["enabled"].(bool),
+			Body:    opt["body"].(string),
+			Flag:    opt["flag"].(string),
+		}
+	}
 
 	return &opts
 }
@@ -356,6 +419,14 @@ func optionsToList(options *gcdn.Options) []interface{} {
 	if options.HostHeader != nil {
 		m := structToMap(options.HostHeader)
 		result["host_header"] = []interface{}{m}
+	}
+	if options.Webp != nil {
+		m := structToMap(options.Webp)
+		result["webp"] = []interface{}{m}
+	}
+	if options.Rewrite != nil {
+		m := structToMap(options.Rewrite)
+		result["rewrite"] = []interface{}{m}
 	}
 	return []interface{}{result}
 }
