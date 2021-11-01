@@ -158,6 +158,45 @@ func resourceCDNRule() *schema.Resource {
 								},
 							},
 						},
+						//"redirect_http_to_https": {
+						//	Type:        schema.TypeList,
+						//	MaxItems:    1,
+						//	Optional:    true,
+						//	Description: "When enabled redirects HTTP requests to HTTPS",
+						//	Elem: &schema.Resource{
+						//		Schema: map[string]*schema.Schema{
+						//			"enabled": {
+						//				Type:     schema.TypeBool,
+						//				Required: true,
+						//			},
+						//			"value": {
+						//				Type:     schema.TypeBool,
+						//				Required: true,
+						//			},
+						//		},
+						//	},
+						//},
+						//"cors": {
+						//	Type:        schema.TypeList,
+						//	MaxItems:    1,
+						//	Optional:    true,
+						//	Description: "The option adds the Access-Control-Allow-Origin header to responses from CDN servers",
+						//	Elem: &schema.Resource{
+						//		Schema: map[string]*schema.Schema{
+						//			"enabled": {
+						//				Type:     schema.TypeBool,
+						//				Required: true,
+						//			},
+						//			//"value": {
+						//			//	Type:     schema.TypeList,
+						//			//	Required: true,
+						//			//	Elem: &schema.Schema{
+						//			//		Type: schema.TypeString,
+						//			//	},
+						//			//},
+						//		},
+						//	},
+						//},
 					},
 				},
 			},
