@@ -77,8 +77,10 @@ resource "gcore_cdn_rule" "cdn_example_com_rule_2" {
 Optional:
 
 - **browser_cache_settings** (Block List, Max: 1) The cache expiration time for customers' browsers in seconds. (see [below for nested schema](#nestedblock--options--browser_cache_settings))
+- **cors** (Block List, Max: 1) The option adds the Access-Control-Allow-Origin header to responses from CDN servers (see [below for nested schema](#nestedblock--options--cors))
 - **edge_cache_settings** (Block List, Max: 1) The cache expiration time for CDN servers. (see [below for nested schema](#nestedblock--options--edge_cache_settings))
 - **host_header** (Block List, Max: 1) Specify the Host header that CDN servers use when request content from an origin server. Your server must be able to process requests with the chosen header. If the option is in NULL state Host Header value is taken from the CNAME field. (see [below for nested schema](#nestedblock--options--host_header))
+- **redirect_http_to_https** (Block List, Max: 1) When enabled redirects HTTP requests to HTTPS (see [below for nested schema](#nestedblock--options--redirect_http_to_https))
 - **rewrite** (Block List, Max: 1) Defines nginx rewrite directive. (see [below for nested schema](#nestedblock--options--rewrite))
 - **webp** (Block List, Max: 1) The option allows automatically convert JPG and PNG images into WebP format (see [below for nested schema](#nestedblock--options--webp))
 
@@ -89,6 +91,15 @@ Required:
 
 - **enabled** (Boolean)
 - **value** (String) The value applies for a response with codes 200, 201, 204, 206, 301, 302, 303, 304, 307, 308. Responses with other codes will not be cached. Use '0s' to disable caching.
+
+
+<a id="nestedblock--options--cors"></a>
+### Nested Schema for `options.cors`
+
+Required:
+
+- **enabled** (Boolean)
+- **value** (List of String)
 
 
 <a id="nestedblock--options--edge_cache_settings"></a>
@@ -112,6 +123,15 @@ Required:
 
 - **enabled** (Boolean)
 - **value** (String)
+
+
+<a id="nestedblock--options--redirect_http_to_https"></a>
+### Nested Schema for `options.redirect_http_to_https`
+
+Required:
+
+- **enabled** (Boolean)
+- **value** (Boolean)
 
 
 <a id="nestedblock--options--rewrite"></a>

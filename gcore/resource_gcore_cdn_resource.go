@@ -194,24 +194,42 @@ func resourceCDNResource() *schema.Resource {
 								},
 							},
 						},
-						//"redirect_http_to_https": {
-						//	Type:        schema.TypeList,
-						//	MaxItems:    1,
-						//	Optional:    true,
-						//	Description: "When enabled redirects HTTP requests to HTTPS",
-						//	Elem: &schema.Resource{
-						//		Schema: map[string]*schema.Schema{
-						//			"enabled": {
-						//				Type:     schema.TypeBool,
-						//				Required: true,
-						//			},
-						//			"value": {
-						//				Type:     schema.TypeBool,
-						//				Required: true,
-						//			},
-						//		},
-						//	},
-						//},
+						"redirect_http_to_https": {
+							Type:        schema.TypeList,
+							MaxItems:    1,
+							Optional:    true,
+							Description: "When enabled redirects HTTP requests to HTTPS",
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+									"value": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+								},
+							},
+						},
+						"gzipon": {
+							Type:        schema.TypeList,
+							MaxItems:    1,
+							Optional:    true,
+							Description: "The option allows to compress content with gzip on the CDN`s end. CDN servers will request only uncompressed content from the origin.",
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+									"value": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+								},
+							},
+						},
 						//"cors": {
 						//	Type:        schema.TypeList,
 						//	MaxItems:    1,
@@ -223,13 +241,13 @@ func resourceCDNResource() *schema.Resource {
 						//				Type:     schema.TypeBool,
 						//				Required: true,
 						//			},
-						//			//"value": {
-						//			//	Type:     schema.TypeList,
-						//			//	Required: true,
-						//			//	Elem: &schema.Schema{
-						//			//		Type: schema.TypeString,
-						//			//	},
-						//			//},
+						//			"value": {
+						//				Type:     schema.TypeList,
+						//				Required: true,
+						//				Elem: &schema.Schema{
+						//					Type: schema.TypeString,
+						//				},
+						//			},
 						//		},
 						//	},
 						//},
@@ -419,18 +437,18 @@ func listToOptions(l []interface{}) *gcdn.Options {
 			Flag:    opt["flag"].(string),
 		}
 	}
-	//if opt, ok := getOptByName(fields, "redirect_http_to_https"); ok {
-	//	opts.RedirectHttpToHttps = &gcdn.RedirectHttpToHttps{
-	//		Enabled: opt["enabled"].(bool),
-	//		Value:   opt["value"].(bool),
-	//	}
-	//}
-	//if opt, ok := getOptByName(fields, "cors"); ok {
-	//	opts.Cors = &gcdn.Cors{
-	//		Enabled: opt["enabled"].(bool),
-	//		Value:   opt["value"].([]string),
-	//	}
-	//}
+	if opt, ok := getOptByName(fields, "redirect_http_to_https"); ok {
+		opts.RedirectHttpToHttps = &gcdn.RedirectHttpToHttps{
+			Enabled: opt["enabled"].(bool),
+			Value:   opt["value"].(bool),
+		}
+	}
+	if opt, ok := getOptByName(fields, "gzipon"); ok {
+		opts.GzipOn = &gcdn.GzipOn{
+			Enabled: opt["enabled"].(bool),
+			Value:   opt["value"].(bool),
+		}
+	}
 
 	return &opts
 }
@@ -479,14 +497,14 @@ func optionsToList(options *gcdn.Options) []interface{} {
 		m := structToMap(options.Rewrite)
 		result["rewrite"] = []interface{}{m}
 	}
-	//if options.RedirectHttpToHttps != nil {
-	//	m := structToMap(options.RedirectHttpToHttps)
-	//	result["redirect_http_to_https"] = []interface{}{m}
-	//}
-	//if options.Cors != nil {
-	//	m := structToMap(options.Cors)
-	//	result["cors"] = []interface{}{m}
-	//}
+	if options.RedirectHttpToHttps != nil {
+		m := structToMap(options.RedirectHttpToHttps)
+		result["redirect_http_to_https"] = []interface{}{m}
+	}
+	if options.GzipOn != nil {
+		m := structToMap(options.GzipOn)
+		result["gzipon"] = []interface{}{m}
+	}
 	return []interface{}{result}
 }
 
