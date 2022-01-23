@@ -230,27 +230,25 @@ func resourceCDNResource() *schema.Resource {
 								},
 							},
 						},
-						//"cors": {
-						//	Type:        schema.TypeList,
-						//	MaxItems:    1,
-						//	Optional:    true,
-						//	Description: "The option adds the Access-Control-Allow-Origin header to responses from CDN servers",
-						//	Elem: &schema.Resource{
-						//		Schema: map[string]*schema.Schema{
-						//			"enabled": {
-						//				Type:     schema.TypeBool,
-						//				Required: true,
-						//			},
-						//			"value": {
-						//				Type:     schema.TypeList,
-						//				Required: true,
-						//				Elem: &schema.Schema{
-						//					Type: schema.TypeString,
-						//				},
-						//			},
-						//		},
-						//	},
-						//},
+						"cors": {
+							Type:        schema.TypeList,
+							MaxItems:    1,
+							Optional:    true,
+							Description: "The option adds the Access-Control-Allow-Origin header to responses from CDN servers",
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+									"value": {
+										Type:     schema.TypeSet,
+										Required: true,
+										Elem:     &schema.Schema{Type: schema.TypeString},
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -449,6 +447,14 @@ func listToOptions(l []interface{}) *gcdn.Options {
 			Value:   opt["value"].(bool),
 		}
 	}
+	if opt, ok := getOptByName(fields, "cors"); ok {
+		vals := make([]string, 1)
+		vals[0] = "*"
+		opts.Cors = &gcdn.Cors{
+			Enabled: opt["enabled"].(bool),
+			Value:   vals,
+		}
+	}
 
 	return &opts
 }
@@ -504,6 +510,10 @@ func optionsToList(options *gcdn.Options) []interface{} {
 	if options.GzipOn != nil {
 		m := structToMap(options.GzipOn)
 		result["gzipon"] = []interface{}{m}
+	}
+	if options.Cors != nil {
+		m := structToMap(options.Cors)
+		result["cors"] = []interface{}{m}
 	}
 	return []interface{}{result}
 }
