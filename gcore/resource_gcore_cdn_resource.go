@@ -7,10 +7,10 @@ import (
 	"reflect"
 	"strconv"
 
+	gcdn "github.com/G-Core/gcorelabscdn-go/gcore"
+	"github.com/G-Core/gcorelabscdn-go/resources"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	gcdn "github.com/skyeng/gcorelabscdn-go/gcore"
-	"github.com/skyeng/gcorelabscdn-go/resources"
 )
 
 func resourceCDNResource() *schema.Resource {

@@ -9,12 +9,12 @@ import (
 
 	dnssdk "github.com/G-Core/g-dns-sdk-go"
 	storageSDK "github.com/G-Core/gcorelabs-storage-sdk-go"
+	gcdn "github.com/G-Core/gcorelabscdn-go"
+	gcdnProvider "github.com/G-Core/gcorelabscdn-go/gcore/provider"
 	gcorecloud "github.com/G-Core/gcorelabscloud-go"
 	gc "github.com/G-Core/gcorelabscloud-go/gcore"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	gcdn "github.com/skyeng/gcorelabscdn-go"
-	gcdnProvider "github.com/skyeng/gcorelabscdn-go/gcore/provider"
 )
 
 const (
